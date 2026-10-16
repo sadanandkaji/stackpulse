@@ -20,3 +20,34 @@ model User {
   passwordHash String
   createdAt    DateTime @default(now())
 }
+model Developer {
+  id                Int      @id @default(autoincrement())
+  githubUsername    String   @unique 
+  name              String?
+  avatarUrl         String
+  bio               String?
+  followers         Int
+  publicRepos       Int
+  totalStars        Int      @default(0)
+  languageBreakdown Json?    
+  commitActivity    Json?   
+  fetchedAt         DateTime @default(now())
+  repos             Repo[]
+}
+
+model Repo {
+  id              Int       @id @default(autoincrement())
+  developerId     Int
+  developer       Developer @relation(fields: [developerId], references: [id], onDelete: Cascade)
+  name            String
+  description     String?
+  url             String
+  stars           Int       @default(0)
+  forks           Int       @default(0)
+  primaryLanguage String?
+  pushedAt        DateTime?
+  isFork          Boolean   @default(false)
+
+  @@unique([developerId, name])
+  @@index([developerId, stars])
+}
