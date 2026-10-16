@@ -1,9 +1,6 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -15,22 +12,25 @@ datasource db {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  email        String   @unique
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
   passwordHash String
-  createdAt    DateTime @default(now())
+  createdAt    DateTime     @default(now())
+  pins         Pin[]
+  comparisons  Comparison[]
 }
+
 model Developer {
   id                Int      @id @default(autoincrement())
-  githubUsername    String   @unique 
+  githubUsername    String   @unique
   name              String?
   avatarUrl         String
   bio               String?
   followers         Int
   publicRepos       Int
   totalStars        Int      @default(0)
-  languageBreakdown Json?    
-  commitActivity    Json?   
+  languageBreakdown Json?
+  commitActivity    Json?
   fetchedAt         DateTime @default(now())
   repos             Repo[]
 }
@@ -47,7 +47,35 @@ model Repo {
   primaryLanguage String?
   pushedAt        DateTime?
   isFork          Boolean   @default(false)
+  pins            Pin[]
 
   @@unique([developerId, name])
   @@index([developerId, stars])
+}
+
+model Pin {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  repoId    Int
+  note      String?
+  tags      String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  repo      Repo     @relation(fields: [repoId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, repoId])
+  @@index([userId])
+}
+
+model Comparison {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  name      String
+  usernames String[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
