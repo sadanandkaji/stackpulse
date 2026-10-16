@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import CommitChart from "../components/CommitChart";
 import LanguageBar from "../components/LanguageBar";
 import RepoList from "../components/RepoList";
@@ -50,13 +50,21 @@ export default function ProfilePage() {
               <p className="text-slate-400">@{data.developer.username}</p>
               {data.developer.bio && <p className="mt-1 text-sm text-slate-300">{data.developer.bio}</p>}
             </div>
-            <button
-              onClick={() => refresh.mutate()}
-              disabled={refresh.isPending}
-              className="rounded-lg border border-slate-700 px-3 py-2 text-sm hover:bg-slate-800 disabled:opacity-60"
-            >
-              {refresh.isPending ? "Refreshing..." : "Refresh data"}
-            </button>
+            <div className="flex gap-2">
+              <button
+                onClick={() => refresh.mutate()}
+                disabled={refresh.isPending}
+                className="rounded-lg border border-slate-700 px-3 py-2 text-sm hover:bg-slate-800 disabled:opacity-60"
+              >
+                {refresh.isPending ? "Refreshing..." : "Refresh data"}
+              </button>
+              <Link
+                to={`/compare?users=${data.developer.username}`}
+                className="rounded-lg bg-indigo-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-indigo-400"
+              >
+                Compare
+              </Link>
+            </div>
           </section>
 
           <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">

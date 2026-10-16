@@ -1,0 +1,1 @@
+export const DEV_COLORS = ["#6366f1", "#22c55e", "#f59e0b", "#ef4444", "#06b6d4"];

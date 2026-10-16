@@ -8,9 +8,15 @@ export default function AppLayout() {
     <div className="min-h-screen">
       <header className="border-b border-slate-800 bg-slate-900">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3">
-          <Link to="/" className="text-lg font-bold">
-            Stack<span className="text-indigo-400">Pulse</span>
-          </Link>
+          <div className="flex items-center gap-5">
+            <Link to="/" className="text-lg font-bold">
+              Stack<span className="text-indigo-400">Pulse</span>
+            </Link>
+            <nav className="flex gap-4 text-sm text-slate-300">
+              <Link to="/" className="hover:text-white">Search</Link>
+              <Link to="/compare" className="hover:text-white">Compare</Link>
+            </nav>
+          </div>
           <div className="flex items-center gap-3">
             <span className="hidden max-w-[220px] truncate text-sm text-slate-400 sm:block">
               {user?.email}

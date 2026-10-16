@@ -41,3 +41,27 @@ export interface DeveloperProfile {
   developer: DeveloperSummary;
   repos: RepoItem[];
 }
+export interface CompareMetric {
+  key: string;
+  label: string;
+  values: Record<string, number>;
+  leader: string | null;
+}
+
+export interface CompareLanguageRow {
+  name: string;
+  values: Record<string, number>;
+}
+
+export interface CompareCommitRow {
+  month: string;
+  counts: Record<string, number>;
+}
+
+export interface CompareResult {
+  developers: DeveloperSummary[];
+  errors: { username: string; message: string }[];
+  metrics: CompareMetric[];
+  languages: CompareLanguageRow[];
+  commitActivity: CompareCommitRow[];
+}
