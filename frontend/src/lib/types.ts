@@ -65,3 +65,29 @@ export interface CompareResult {
   languages: CompareLanguageRow[];
   commitActivity: CompareCommitRow[];
 }
+export interface Pin {
+  id: number;
+  note: string | null;
+  tags: string[];
+  createdAt: string;
+  updatedAt: string;
+  repo: {
+    id: number;
+    name: string;
+    description: string | null;
+    url: string;
+    stars: number;
+    primaryLanguage: string | null;
+    pushedAt: string | null;
+    owner: string;
+    ownerAvatarUrl: string;
+  };
+}
+
+export interface SavedComparison {
+  id: number;
+  name: string;
+  usernames: string[];
+  createdAt: string;
+  updatedAt: string;
+}

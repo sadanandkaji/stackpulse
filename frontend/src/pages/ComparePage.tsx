@@ -2,6 +2,7 @@ import { type SyntheticEvent, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import CompareCharts from "../components/CompareCharts";
 import CompareTable from "../components/CompareTable";
+import SaveComparison from "../components/SaveComparison";
 import { useCompare } from "../hooks/useCompare";
 import { ApiError } from "../lib/api";
 import { DEV_COLORS } from "../lib/colors";
@@ -11,6 +12,7 @@ const MAX = 5;
 export default function ComparePage() {
   const [params, setParams] = useSearchParams();
   const [input, setInput] = useState("");
+  const savedId = params.get("saved");
 
   const usernames = useMemo(
     () => [...new Set((params.get("users") ?? "").split(",").map((s) => s.trim().toLowerCase()).filter(Boolean))],
@@ -20,7 +22,10 @@ export default function ComparePage() {
   const { data, isLoading, error } = useCompare(usernames);
 
   function setUsers(list: string[]) {
-    setParams(list.length ? { users: list.join(",") } : {});
+    const next: Record<string, string> = {};
+    if (list.length) next.users = list.join(",");
+    if (savedId) next.saved = savedId;
+    setParams(next);
   }
 
   function onAdd(e: SyntheticEvent<HTMLFormElement>) {
@@ -103,6 +108,7 @@ export default function ComparePage() {
             <>
               <CompareTable data={data} />
               <CompareCharts data={data} />
+              <SaveComparison usernames={usernames} savedId={savedId} />
             </>
           ) : (
             <p className="text-center text-slate-400">Need at least two valid developers to compare.</p>

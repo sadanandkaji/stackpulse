@@ -1,11 +1,13 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./auth/ProtectedRoute";
 import AppLayout from "./components/AppLayout";
+import ComparePage from "./pages/ComparePage";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
+import PinsPage from "./pages/PinsPage";
 import ProfilePage from "./pages/ProfilePage";
+import SavedComparisonsPage from "./pages/SavedComparisonsPage";
 import SignupPage from "./pages/SignupPage";
-import ComparePage from "./pages/ComparePage";
 
 export default function App() {
   return (
@@ -17,8 +19,11 @@ export default function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/dev/:username" element={<ProfilePage />} />
           <Route path="/compare" element={<ComparePage />} />
+          <Route path="/pins" element={<PinsPage />} />
+          <Route path="/saved" element={<SavedComparisonsPage />} />
         </Route>
       </Route>
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
 }
